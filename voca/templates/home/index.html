@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+<!-- Content -->
+{% block content %}
+<article>
+    <h3>Remind Voca</h3>
+</article>
+
+{% endblock %}
+
+
+<!-- Nav -->
+{% block nav_list %}
+<nav id="nav">
+    <ul>
+        <li>Procedure</li>
+
+        <li class="current"><a href="/upload/dashboard/"> &gt; Dashboard</a></li>
+
+        <li><a href="">Video Upload</a></li>
+
+    </ul>
+</nav>
+{% endblock %}
+
+
+<!-- Scripts -->
+{% block scripts %}
+<script src="{% static 'mypage/js/jquery.min.js' %}"></script>
+{% endblock %}
+

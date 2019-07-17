@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+{% load staticfiles %}
+<html>
+<head>
+    <title>외워VOCA</title>
+    <meta charset="utf-8"/>
+
+    {% block style %}
+    {% endblock %}
+
+</head>
+<body class="body">
+
+<div id="content">
+    <div class="inner">
+
+        {% block content %}
+        {% endblock %}
+
+    </div>
+
+
+</div>
+
+<!-- Sidebar -->
+<div id="leftsidebar">
+
+    <!-- Nav -->
+    {% block nav_list %}
+    {% endblock %}
+
+
+</div>
+
+
+<!-- Scripts -->
+{% block scripts %}
+{% endblock %}
+</body>
+</html>
