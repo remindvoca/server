@@ -1,0 +1,23 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+{% block title %}
+로그인 - 외워보카
+{% endblock %}
+
+{% block style %}
+{% endblock %}
+
+{% block page-wrapper %}
+
+<h2>Login</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Login</button>
+</form>
+
+{% endblock %}
+
+{% block script %}
+{% endblock %}
