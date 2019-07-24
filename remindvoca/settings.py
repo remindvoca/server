@@ -40,6 +40,10 @@ INSTALLED_APPS = [
     'voca',
 ]
 
+# Custom User Model
+AUTH_USER_MODEL = 'voca.Account'
+
+
 LOGIN_REDIRECT_URL ='/'
 LOGOUT_REDIRECT_URL = '/'
 
