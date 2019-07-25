@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'voca',
+    'accounts.apps.AccountsConfig',
 ]
 
 LOGIN_REDIRECT_URL ='/'
