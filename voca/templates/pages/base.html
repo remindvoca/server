@@ -1,0 +1,17 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        {% block style %}
+        {% endblock %}
+    </head>
+    <body>    
+        <div id="page-wrapper">
+            {% block page-wrapper %}
+            {% endblock %}
+        </div>
+        {% block script %}
+        {% endblock  %}
+    </body>
+</html>

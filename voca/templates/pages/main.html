@@ -1,0 +1,23 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+{% block title %}
+메인 - 외워보카
+{% endblock %}
+
+{% block style %}
+{% endblock %}
+
+{% block page-wrapper %}
+<p> 메인 페이지 </p>
+{% if user.is_authenticated %}
+  Hi {{ user.username }}!
+  <p><a href="{% url 'logout' %}">logout</a></p>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">login</a>
+{% endif %}
+{% endblock %}
+
+{% block script %}
+{% endblock %}
