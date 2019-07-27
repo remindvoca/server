@@ -28,3 +28,8 @@ pandas를 이용해 dataframe을 만들고 그 dataframe을 이용해 시각화
 ---
 
 **NLTK** 분석하기 결정 : `nltk.ipynb`
+
+- lemma : 표제어
+- stem : 어간
+- token : 토큰화
+- tag : 품사
