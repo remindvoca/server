@@ -42,7 +42,7 @@ INSTALLED_APPS = [
 ]
 
 # Custom User Model
-AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'voca.Account'
 
 
 LOGIN_REDIRECT_URL ='/'
@@ -131,4 +131,10 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
   os.path.join(BASE_DIR, 'static/'),
+)
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIAFILES_DIRS = (
+  os.path.join(BASE_DIR, 'media/'),
 )

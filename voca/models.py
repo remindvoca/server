@@ -41,10 +41,12 @@ class CardModel(models.Model):
     WordModel_cleanword = models.ForeignKey('WordModel', on_delete=models.CASCADE)
     example_text1 = models.CharField(max_length=500)
     example_text2 = models.CharField(max_length=500, null=True)
+    completed = models.BooleanField(default=False)
     # DailyBookModel_id = models.UUIDField(editable=False)
     # VocaBookModel_id = models.UUIDField(editable=False)
     DailyBookModel_id = models.ForeignKey('DailyBookModel', on_delete=models.CASCADE)
     VocaBookModel_id = models.ForeignKey('VocaBookModel', on_delete=models.CASCADE)
+
 
 
 class DailyBookModel(models.Model):
@@ -75,6 +77,7 @@ class FolderModel(models.Model):
     Account_userID(FK):
     '''
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    foldername = models.CharField(max_length=100, default='RemindVoca Foler')
     Account_userID = models.ForeignKey('Account', on_delete=models.CASCADE)
 
 
@@ -100,7 +103,7 @@ class AccountManager(BaseUserManager):
     '''
 
     # 일반 유저 생성
-    def create_account(self, userID, email, name, date_of_birth, password=None):
+    def create_user(self, userID, email, name, date_of_birth, password=None):
         if not userID or not email or not name or not date_of_birth:
             raise ValueError('Users must input all information we provide')
 
@@ -116,8 +119,8 @@ class AccountManager(BaseUserManager):
         return account
 
     # 관리자 생성
-    def create_superaccount(self, userID, email, name, date_of_birth, password):
-        account = self.create_account(
+    def create_superuser(self, userID, email, name, date_of_birth, password):
+        account = self.create_user(
             userID=userID,
             email=email,
             name=name,
@@ -184,3 +187,12 @@ class Account(AbstractBaseUser):
     def is_staff(self):
         return self.is_admin
 
+
+
+class PDFModel(models.Model):
+    '''
+    filePath:
+    Account_userID(FK):
+    '''
+    filePath = models.FileField(upload_to="")
+    Account_userID = models.ForeignKey('Account', on_delete=models.CASCADE)

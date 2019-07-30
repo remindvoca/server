@@ -217,22 +217,33 @@ def gen_example(text_path, word_list):
                 
     return example
 
-'''
-input_path = ['C:/Users/JM/Desktop/MCNN.pdf','C:/Users/JM/Desktop/YOLO.pdf']
 
-result = Counter('')
-text_path = []
+if __name__ == "__main__":
+
+    input_path = ['Hsueh, Li, Wu - 2018 - Stochastic Gradient Descent with Hyperbolic-Tangent Decay.pdf']
+
+    result = Counter('')
+    text_path = []
 
 
-for path in input_path:
-    pdf = preprocessing(path)
-    output_path = pdf.pdf2txt()
-    text_path.append(output_path)
-    
-    pdf.clean_text()
-    cnt = pdf.word_Frequency()
-    
-    result += cnt
-    
-example = gen_example(text_path, result)
-'''
+    for path in input_path:
+        pdf = preprocessing(path)
+        output_path = pdf.pdf2txt()
+        text_path.append(output_path)
+
+        pdf.clean_text()
+        cnt = pdf.word_Frequency()
+
+        result += cnt
+
+
+    sorted_cnt = sorted(result.items(), key=lambda t: t[1], reverse=True)
+    sorted_values = sorted(result.values(), reverse=True)
+    sorted_keys = sorted(result, key=result.get, reverse=True)
+
+    print(sorted_keys[:50])
+
+
+    example = gen_example(text_path, sorted_keys[:50])
+    print(example)
+
