@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth import (
     password_validation,
 )
-from django.contrib.auth.forms import UsernameField
 from django.utils.translation import gettext_lazy as _
 from accounts.models import User
 
@@ -27,11 +26,11 @@ class UserCreationForm(forms.ModelForm):
         strip=False,
         help_text=_("Enter the same password as before, for verification."),
     )
+    birth_date = forms.DateField(input_formats=['%Y-%m-%d'])
 
     class Meta:
         model = User
         fields = ("username", 'phone_number', 'birth_date', 'email', 'name')
-        field_classes = {'username': UsernameField}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

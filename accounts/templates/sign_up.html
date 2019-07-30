@@ -5,10 +5,10 @@
 
 {% block content %}
 <div>
-    {{ form.as_p }}
-    <form action=".">
+    <form action="{% url 'account:sign_up' %}" method="post">
         {% csrf_token %}
-        <button type="submit">완료</button>
+        {{ form.as_p }}
+        <button type="submit">회원가입</button>
     </form>
 </div>
 {% endblock %}
