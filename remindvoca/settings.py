@@ -132,3 +132,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
   os.path.join(BASE_DIR, 'static/'),
 )
+
+# default date format
+DATE_INPUT_FORMATS = ['%Y%m%d']
