@@ -42,7 +42,7 @@ INSTALLED_APPS = [
 ]
 
 # Custom User Model
-AUTH_USER_MODEL = 'voca.Account'
+AUTH_USER_MODEL = 'accounts.User'
 
 
 LOGIN_REDIRECT_URL ='/'
@@ -126,6 +126,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+STATIC_ROOT = ''
 STATIC_URL = '/static/'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
@@ -138,3 +139,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIAFILES_DIRS = (
   os.path.join(BASE_DIR, 'media/'),
 )
+
+
+# default date format
+DATE_INPUT_FORMATS = ['%Y%m%d']
+

@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from .models import Account, PDFModel
+from .models import PDFModel
 from .forms import PDF_Form
 
-login_url=''
+from accounts.models import User
+
+login_url='accounts/sign_in/'
 
 
 
@@ -26,7 +28,7 @@ def process(request):
         print(request.POST)
         form = PDF_Form(request.POST, request.FILES)
         # if form.is_valid():
-        user_instance = Account.objects.filter(userID=request.user.userID).get()
+        user_instance = User.objects.filter(username=request.user.username).get()
         # print(type(user_instance))
         # print(request.user.username)
 

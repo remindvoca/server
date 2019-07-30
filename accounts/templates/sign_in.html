@@ -4,4 +4,11 @@
 {% endblock %}
 
 {% block content %}
+<div>
+    <form action="{% url 'account:sign_in' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">로그인</button>
+    </form>
+</div>
 {% endblock %}
