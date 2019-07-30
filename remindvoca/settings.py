@@ -42,7 +42,7 @@ INSTALLED_APPS = [
 ]
 
 # Custom User Model
-AUTH_USER_MODEL = 'voca.Account'
+AUTH_USER_MODEL = 'accounts.User'
 
 
 LOGIN_REDIRECT_URL ='/'
@@ -128,5 +128,9 @@ USE_TZ = True
 
 STATIC_ROOT = ''
 STATIC_URL = '/static/'
-STATICFILES_DIRS = ( os.path.join('static'), )
-# https://kez1994.tistory.com/165
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+STATICFILES_DIRS = (
+  os.path.join(BASE_DIR, 'static/'),
+)
+
