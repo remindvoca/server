@@ -59,7 +59,7 @@
     <img style="width: 100%" src="{% static 'img/landing_page.png' %}">
     <div class="btn-group">
         <button id="sign-in-btn" onclick="window.location = '{% url 'account:sign_in' %}';">로그인</button>
-        <button id="sign-up-btn" onclick="window.location = '{% url 'account:sign_up' %}';">회원가입</button>
+        <button id="sign-up-btn" onclick="window.location = '{% url 'account:before_sign_up' %}';">회원가입</button>
     </div>
 </div>
 </body>
