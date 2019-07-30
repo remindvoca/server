@@ -61,6 +61,7 @@ class DailyBookModel(models.Model):
     VocaBookModel_id(FK):
     '''
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    daily_num = models.IntegerField()
     num_reminded = models.IntegerField(default=0)
     VocaBookModel_id = models.ForeignKey('VocaBookModel', on_delete=models.CASCADE)
 
@@ -72,6 +73,7 @@ class VocaBookModel(models.Model):
     FolderModel_id(FK):
     '''
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    bookname = models.CharField(max_length=100, default='RemindVoca Foler')
     num_expected_day = models.IntegerField()
     FolderModel_id = models.ForeignKey('FolderModel', on_delete=models.CASCADE)
 

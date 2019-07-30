@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <title>{% block title %}{% endblock %}</title>
     <style>
         html, body{
@@ -32,26 +33,38 @@
             background: white;
             display: inline-block;
         }
+
+
     </style>
     {% block extra_style %}
     {% endblock %}
 </head>
 <body>
+
+
 <div class="content">
+    {% block header_bar %}
+    {% endblock header_bar %}
     <div class="wrapper">
         {% if form.errors %}
-            <div class="alert alert-danger" role="alert">
-                {{ form.errors }}
-            </div>
+        <div class="alert alert-danger" role="alert">
+            {{ form.errors }}
+        </div>
         {% endif %}
         {% block content %}
         {% endblock content %}
     </div>
+
+    {% block extra_content %}
+    {% endblock extra_content %}
 </div>
+
 
 <!-- Jquery, Bootstrap JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
 {% block extra_script %}
 {% endblock extra_script %}
 </body>
