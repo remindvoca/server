@@ -3,12 +3,70 @@
 {% block title %}
 {% endblock %}
 
+{% block extra_script %}
+    <style>
+        .wrapper{
+            text-align: left;
+        }
+        input{
+            width: 280px;
+            padding: 5px 25px;
+            border-radius: 5px;
+            border: solid 1px #c1c1c1;
+            background-color: #ffffff;
+            margin-bottom: 15px;
+        }
+        label{
+            font-weight: bold;
+        }
+        button{
+            border: none;
+            margin-top: 30px;
+            padding: 5px 25px;
+            border-radius: 33px;
+            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+            background-color: #ffffb5;
+            color: #3800a8;
+            font-weight: bold;
+        }
+        #sign-up-title{
+            width: 100%;
+            color: #7d63d5;
+            font-weight: bolder;
+            margin-bottom: 50px;
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
-<div>
+    <div>
+        <h1 id="sign-up-title">외워보카 회원가입</h1>
+    </div>
     <form action="{% url 'account:sign_up' %}" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">회원가입</button>
+        <div class="field-input">
+            <label class="col-md-3" for="id_name">이름</label> <input class="col-md-9" type="text" name="name" maxlength="15" required="" id="id_name">
+        </div>
+        <div class="field-input">
+            <label class="col-md-3" for="id_phone_number">핸드폰 번호</label> <input class="col-md-9" type="text" name="phone_number" maxlength="13" required="" id="id_phone_number">
+        </div>
+        <div class="field-input">
+            <label class="col-md-3" for="id_birth_date">생년월일</label> <input class="col-md-9" type="text" name="birth_date" required="" id="id_birth_date" placeholder="yyyy-mm-dd">
+        </div>
+        <div class="field-input">
+            <label class="col-md-3" for="id_email">이메일</label> <input class="col-md-9" type="email" name="email" maxlength="254" id="id_email">
+        </div>
+        <div class="field-input">
+            <label class="col-md-3" for="id_username">아이디</label> <input class="col-md-9" type="text" name="username" maxlength="150" autofocus="" required="" id="id_username">
+        </div>
+        <div class="field-input">
+            <label class="col-md-3" for="id_password1">비밀번호</label> <input class="col-md-9" type="password" name="password1" required="" id="id_password1">
+        </div>
+        <div class="field-input">
+            <label class="col-md-3" for="id_password2">비밀번호 확인</label> <input class="col-md-9" type="password" name="password2" required="" id="id_password2">
+        </div>
+        <div class="row">
+            <button type="submit" class="pull-right">회원가입</button>
+        </div>
     </form>
-</div>
 {% endblock %}

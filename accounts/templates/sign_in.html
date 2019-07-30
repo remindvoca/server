@@ -1,13 +1,52 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
 {% endblock %}
 
+{% block extra_style %}
+    <style>
+        input{
+            width: 280px;
+            padding: 5px 25px;
+            border-radius: 26px;
+            border: solid 1px #7e86dc;
+            background-color: #ffffff;
+            color: #7e86dc;
+        }
+        button{
+            border: none;
+            margin-top: 30px;
+            font-weight: 500;
+            padding: 5px 25px;
+            border-radius: 33px;
+            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+            background-color: #ffffb5;
+            color: #3800a8;
+            font-weight: bold;
+        }
+        #sign-in-title{
+            width: 280px;
+            margin-bottom: 50px;
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
 <div>
+    <div>
+        <img id="sign-in-title" src="{% static 'img/logo.png' %}">
+    </div>
     <form action="{% url 'account:sign_in' %}" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        <p>
+            <label for="id_username"></label>
+            <input type="text" name="username" autofocus required id="id_username" placeholder="아이디">
+        </p>
+        <p>
+            <label for="id_password"></label>
+            <input type="password" name="password" required id="id_password" placeholder="비밀번호">
+        </p>
         <button type="submit">로그인</button>
     </form>
 </div>
