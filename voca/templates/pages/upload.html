@@ -1,0 +1,98 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+{% block title %}
+    파일 업로드  - 외워보카
+{% endblock %}
+
+{% block style %}
+    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel='stylesheet' href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/dropzone.css">
+{% endblock %}
+
+{% block page-wrapper %}
+    <p> 파일 업로드 </p>
+{% if user.is_authenticated %}
+    <form action="{% url 'voca:process' %}"
+          class="dropzone dz-clickable"
+          id="my-dropzone"
+    method="post" enctype="multipart/form-data"
+          novalidate>
+        {% csrf_token %}
+        <div class="dz-default dz-message">
+            <span> PDF 파일을 올려주세요 </span>
+        </div>
+        <!--{{ form.as_p }}-->
+        <button type="submit" class="page-scroll btn btn-xl">Upload</button>
+    </form>
+
+    Hi {{ user.username }}!
+    <p><a href="{% url 'logout' %}">logout</a></p>
+{% else %}
+    <p>You are not logged in</p>
+    <a href="{% url 'login' %}">login</a>
+    <a href="{% url 'signup' %}">sign up</a>
+{% endif %}
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+    var dropzone = new Dropzone('#my-dropzone', {
+      previewTemplate: document.querySelector('#preview-template').innerHTML,
+      parallelUploads: 2,
+      thumbnailHeight: 120,
+      thumbnailWidth: 120,
+      maxFilesize: 3,
+      filesizeBase: 1000,
+      thumbnail: function(file, dataUrl) {
+        if (file.previewElement) {
+          file.previewElement.classList.remove("dz-file-preview");
+          var images = file.previewElement.querySelectorAll("[data-dz-thumbnail]");
+          for (var i = 0; i < images.length; i++) {
+        var thumbnailElement = images[i];
+        thumbnailElement.alt = file.name;
+        thumbnailElement.src = dataUrl;
+          }
+          setTimeout(function() { file.previewElement.classList.add("dz-image-preview"); }, 1);
+        }
+      }
+    });
+    // Now fake the file upload, since GitHub does not handle file uploads
+    // and returns a 404
+    var minSteps = 6,
+        maxSteps = 60,
+        timeBetweenSteps = 100,
+        bytesPerStep = 100000;
+    dropzone.uploadFiles = function(files) {
+      var self = this;
+      for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+        totalSteps = Math.round(Math.min(maxSteps, Math.max(minSteps, file.size / bytesPerStep)));
+        for (var step = 0; step < totalSteps; step++) {
+          var duration = timeBetweenSteps * (step + 1);
+          setTimeout(function(file, totalSteps, step) {
+        return function() {
+          file.upload = {
+            progress: 100 * (step + 1) / totalSteps,
+            total: file.size,
+            bytesSent: (step + 1) * file.size / totalSteps
+          };
+          self.emit('uploadprogress', file, file.upload.progress, file.upload.bytesSent);
+          if (file.upload.progress == 100) {
+            file.status = Dropzone.SUCCESS;
+            self.emit("success", file, 'success', null);
+            self.emit("complete", file);
+            self.processQueue();
+            //document.getElementsByClassName("dz-success-mark").style.opacity = "1";
+          }
+        };
+          }(file, totalSteps, step), duration);
+        }
+      }
+    }
+
+
+    </script>
+
+{% endblock %}
