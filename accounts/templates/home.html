@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+        Hi {{ user.username }}!
+        <p><a href="{% url 'account:sign_out' %}">로그아웃</a></p>
+    {% else %}
+        <p>You are not logged in</p>
+        <a href="{% url 'accounts:sign_in' %}">로그인</a>
+        <a href="{% url 'account:before_sign_up' %}">회원가입하기</a>
+    {% endif %}
+{% endblock %}
