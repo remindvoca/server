@@ -24,7 +24,8 @@ from pdfminer.converter import XMLConverter, HTMLConverter, TextConverter
 from pdfminer.cmapdb import CMapDB
 from pdfminer.layout import LAParams
 from pdfminer.image import ImageWriter
-
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
 
 class preprocessing:
     def __init__(self, input_path, output_path=None):
@@ -149,6 +150,30 @@ class preprocessing:
         
         print('[INFO] clean text file')
 
+    def return_without_easy_words(self,result):
+        html = urlopen("https://opentutorials.org/module/825")
+        bsObject = BeautifulSoup(html, "html.parser")
+        contents = str(bsObject.find_all("div", attrs={"class": "entry-content"}))
+        datalist = contents.split('\n')
+        wordlists = []
+
+        # Get easy words
+        for data in datalist:
+            if data[:3] != '<li':
+                continue
+            else:
+                temp = data.split(' ', 1)
+                if len(temp[0][4:]) > 0 and str(temp[0][4:]).isalnum() :
+                    wordlists.append(temp[0][4:])
+                else:
+                    continue
+        # print(wordlists)
+
+        # Removing easy words in the result
+        final_result = [each_result for each_result in result if each_result not in wordlists]
+
+        return final_result
+
     def word_Frequency(self):
         '''
         ===============================
@@ -178,7 +203,7 @@ class preprocessing:
                 if parsing and parsing.isdigit() == False and len(parsing) > 2:
                     result.append(w)  
 
-        cnt = Counter(result)
+        cnt = Counter(return_without_easy_words(result))
         
         print('[INFO] generation word frequency')
         
@@ -216,6 +241,8 @@ def gen_example(text_path, word_list):
             break
                 
     return example
+
+
 
 '''
 input_path = ['C:/Users/JM/Desktop/MCNN.pdf','C:/Users/JM/Desktop/YOLO.pdf']
