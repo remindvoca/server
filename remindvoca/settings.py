@@ -134,6 +134,12 @@ STATICFILES_DIRS = (
   os.path.join(BASE_DIR, 'static/'),
 )
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIAFILES_DIRS = (
+  os.path.join(BASE_DIR, 'media/'),
+)
+
 
 # default date format
 DATE_INPUT_FORMATS = ['%Y%m%d']
