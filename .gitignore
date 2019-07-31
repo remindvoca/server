@@ -5,6 +5,13 @@
 #PyCharm
 .idea
 
+#VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
 
 
 ### Django ###
@@ -15,6 +22,8 @@ __pycache__/
 local_settings.py
 db.sqlite3
 media
+voca/migrations/*
+accounts/migrations/*
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
 # in your Git repository. Update and uncomment the following line accordingly.
@@ -106,8 +115,8 @@ ipython_config.py
 #   However, in case of collaboration, if having platform-specific dependencies or dependencies
 #   having no cross-platform support, pipenv may install dependencies that don't work, or not
 #   install all needed dependencies.
-#Pipfile.lock
-
+Pipfile.lock
+Pipfile
 # celery beat schedule file
 celerybeat-schedule
 

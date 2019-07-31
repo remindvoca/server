@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}
+외워보카-회원가입
+{% endblock %}
+
+{% block extra_script %}
+    <style>
+        .wrapper{
+            text-align: left;
+        }
+
+        #sign-up-title{
+            width: 100%;
+            color: #7d63d5;
+            font-weight: bolder;
+            margin-bottom: 50px;
+        }
+        #Topic-title{
+            width: 100%;
+            color: #333;
+            font-weight: bolder;
+            margin-bottom: 50px;
+        }
+        button{
+            border: none;
+            margin-top: 30px;
+            padding: 5px 25px;
+            border-radius: 33px;
+            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+            background-color: #ffffb5;
+            color: #3800a8;
+            font-weight: bold;
+            float:right;
+        }
+    </style>
+{% endblock %}
+
+
+{% block content %}
+    <div>
+        <h1 id="sign-up-title">외워보카 회원가입</h1>
+    </div>
+    <div>
+        <h3 id="Topic-title">개인 정보 보호 및 이용 약관</h3>
+    </div>
+    <div>
+        <p>"동의합니다"를 선택하면 외워보카 서비스 약관 및 서비스 약관에 동의하게됩니다.</p>
+        <p>귀하는 또한 수집 한 개인 정보, 수집 목적 및 저장 방법을 설명 하는 개인 정보 보호 정책에 동의합니다.</p>
+        <p>외워보카 계정을 설정하면 이름, 이메일 주소 및 전화 번호와 같은 정보를 저장합니다.</p>
+        <p>예를 들어 외워보카는 사용자의 기기 ID, IP 주소, 쿠키 데이터 및 위치와 같은 정보를 수집하고 해당
+            활동에 대한 정보를 사용할 수 있습니다.
+        </p>
+        <p>"동의합니다"를 선택하면 외워보카 서비스 약관 및 서비스 약관에 동의하게됩니다.</p>
+    </div>
+
+<!--    <a href="{% url 'account:sign_up' %}">회원가입하기</a>-->
+    <button id="sign-in-btn" onclick="window.location = '{% url 'account:sign_up' %}';">회원가입하기</button>
+
+{% endblock %}

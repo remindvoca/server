@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1920" height="2149" viewBox="0 0 1920 2149">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.687" x2="0.311" y2="1.497" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#7d63d5"/>
+      <stop offset="1" stop-color="#6393d5"/>
+    </linearGradient>
+    <clipPath id="clip-Landing_Page">
+      <rect width="1920" height="2149"/>
+    </clipPath>
+  </defs>
+  <g id="Landing_Page" data-name="Landing Page" clip-path="url(#clip-Landing_Page)">
+    <rect width="1920" height="2149" fill="#fff"/>
+    <g id="BG">
+      <path id="Intersection_1" data-name="Intersection 1" d="M2447.687,566.688V27.966h1919V329.3a619.153,619.153,0,0,1-34.61,59.33c-99.5,150.2-279.122,203.923-369.908,203.923-210.154,0-433-54-645.448-93.557s-287.016-22.7-556.658,93.557c-58.507,25.227-108.759,35.1-151.616,35.1C2533.812,627.642,2481.666,597.692,2447.687,566.688Z" transform="translate(-2447.187 -27.466)" fill="url(#linear-gradient)"/>
+      <path id="Path_135" data-name="Path 135" d="M-2450.542,913.725s191.691-32.241,319.47,226.463,248.609,423.756,605.616,532.134,419.046,425.881,419.046,425.881h-1440Z" transform="translate(2428 89.9)" fill="#aab8f5"/>
+      <circle id="Ellipse_1" data-name="Ellipse 1" cx="38" cy="38" r="38" transform="translate(1208 613)" fill="#aab8f5" opacity="0.9"/>
+      <circle id="Ellipse_2" data-name="Ellipse 2" cx="28" cy="28" r="28" transform="translate(1589 1454)" fill="#aab8f5" opacity="0.8"/>
+      <circle id="Ellipse_5" data-name="Ellipse 5" cx="21.5" cy="21.5" r="21.5" transform="translate(658 1324)" fill="#aab8f5" opacity="0.6"/>
+      <circle id="Ellipse_6" data-name="Ellipse 6" cx="20.5" cy="20.5" r="20.5" transform="translate(135 918)" fill="#aab8f5" opacity="0.8"/>
+      <circle id="Ellipse_4" data-name="Ellipse 4" cx="45" cy="45" r="45" transform="translate(1402 1743)" fill="#aab8f5" opacity="0.601"/>
+      <circle id="Ellipse_3" data-name="Ellipse 3" cx="107" cy="107" r="107" transform="translate(1789 1743)" fill="#aab8f5"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{% endblock %}
+
+{% block extra_style %}
+<style>
+        input{
+            width: 280px;
+            padding: 5px 25px;
+            border-radius: 26px;
+            border: solid 1px #7e86dc;
+            background-color: #ffffff;
+            color: #7e86dc;
+        }
+        button{
+            width: 200px;
+            height: 200px;
+            border: none;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            margin-left: 20px;
+            margin-right: 20px;
+            font-weight: 500;
+            padding: 5px 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+            background-color: #ffffb5;
+            color: #3800a8;
+            font-weight: bold;
+        }
+        header{
+            height: 50px;
+            background-color: #000000;
+            opacity: 0.5;
+        }
+        #logout-button{
+            width: 150px;
+            height: 30px;
+            border: none;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            margin-left: 20px;
+            margin-right: 20px;
+            font-weight: 500;
+            padding: 5px 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+            background-color: #ffffb5;
+            color: #3800a8;
+            font-weight: bold;
+            float: right;
+            opacity: 1.0;
+        }
+        #user-profile{
+            width: 70px;
+        }
+        #button-list{
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+
+
+
+</style>
+{% endblock %}
+
+
+{% block header_bar %}
+<header>
+    <button id="logout-button">
+        LOGOUT
+    </button>
+</header>
+
+{% endblock header_bar %}
+
+
+{% block content %}
+<div>
+    <div>
+        <img id="user-profile" src="{% static 'img/profile.png' %}">
+        <h3>{{ request.user.name }} 님</h3><br/>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-4"><h4>지금까지 외운 단어</h4></div>
+        <div class="col-md-4">총 {{ request.user.num_accumulated_words }} 단어</div>
+        <div class="col-md-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-4"><h4>진행 중인 못한 단어</h4></div>
+        <div class="col-md-4">총 {{ request.user.num_ongoing_words }} 단어</div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block extra_content%}
+<div id="button-list">
+    <div class="row">
+        <div class="col-md-3">
+            <button>Add</button>
+        </div>
+        {% for folder in folders %}
+        <div class="col-md-3">
+            <button onclick="location.href='TOEIC/'">{{ folder }}</button>
+            <!--<button>{{ folder.foldername }}</button>-->
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_script %}
+<script>
+
+</script>
+{% endblock extra_script %}
