@@ -174,6 +174,43 @@ class preprocessing:
 
         return final_result
 
+	def word_parsing(self,text):
+		'''
+		text : text
+		=========================
+		return : word list 
+		'''
+        stop_words = set(stopwords.words('english')) 
+        word_tokens = word_tokenize(text)
+        
+        result = [] 
+
+        # 불필요한 단어들 제거
+        for w in word_tokens: 
+            if w not in stop_words: 
+                parsing = ''.join([i for i in w if not i.isdigit()]) 
+                parsing = re.sub('[-=+,#/\?:^$.@*\"※~&%}{ㆍ!』\\‘|\(\)\[\]\<\>`\'…》]', '', parsing)
+
+                if parsing and parsing.isalpha() == True:
+                    if not re.findall('\d+', w):
+                        w = w.lower()
+                        w = lemma(w,'v')
+                        
+                        tok = token(w,'hyphen')
+                        tags = tag(tok)
+                        
+                        '''
+                        PRP는 인칭 대명사, VBP는 동사, 
+                        RB는 부사, VBG는 현재부사, 
+                        IN은 전치사, NNP는 고유 명사, 
+                        NNS는 복수형 명사, CC는 접속사, DT는 관사
+                        '''
+                        
+                        if tags[0][1] not in ['DT','PRP']:
+                            result.append(w)
+                            
+        return result
+		
     def word_Frequency(self):
         '''
         ===============================
@@ -184,24 +221,10 @@ class preprocessing:
 
         text = f.readline()
 
-        # 단어의 빈도수
         shortword = re.compile(r'\W*\b\w{1,2}\b')
         text = shortword.sub('', text)
 
-        stop_words = set(stopwords.words('english')) 
-        word_tokens = word_tokenize(text)
-
-        result = [] 
-
-        # 불용어 제거
-        for w in word_tokens: 
-            if w not in stop_words: 
-                parsing = ''.join([i for i in w if not i.isdigit()]) 
-                parsing = re.sub('[-=+,#/\?:^$.@*\"※~&%}{ㆍ!』\\‘|\(\)\[\]\<\>`\'…》]', '', parsing)
-
-
-                if parsing and parsing.isdigit() == False and len(parsing) > 2:
-                    result.append(w)  
+        result = self.word_parsing(text)  
 
         cnt = Counter(self.return_without_easy_words(result))
         
