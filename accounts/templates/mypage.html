@@ -69,9 +69,7 @@
 
 {% block header_bar %}
 <header>
-    <button id="logout-button">
-        LOGOUT
-    </button>
+    <button id="logout-button" onclick="window.location = '{% url 'account:home' %}';">로그아웃</button>
 </header>
 
 {% endblock header_bar %}
