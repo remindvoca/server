@@ -3,16 +3,16 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from .models import PDFModel
 from .forms import PDF_Form
-
 from accounts.models import User
+from django.views import generic
 
 login_url='accounts/sign_in/'
 
+class mainview(generic.TemplateView):
+    template_name = 'main.html'
 
-
-
-def main(request):
-    return render(request, 'pages/main.html',{})
+#def main(request):
+#    return render(request, 'pages/main.html',{})
 
 
 # @login_required(login_url=login_url)
