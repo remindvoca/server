@@ -29,7 +29,7 @@ class SignInView(LoginView):
     template_name = 'sign_in.html'
 
     def get_success_url(self):
-        return reverse_lazy('accounts:mypage') #마이페이지 링크 걸어주기
+        return reverse_lazy('voca:main') #마이페이지 링크 걸어주기
 
 
 class SignOutView(generic.RedirectView):
