@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from accounts.views import *
 
 
@@ -13,4 +13,6 @@ urlpatterns = [
     path('mypage/', MyPageView.as_view(), name='mypage'),
     path('mypage/TOEIC/', VocaBookView.as_view(), name='vocabook'),
     path('mypage/TOEIC/Intermediate/', DailyBookView.as_view(), name='vocabook'),
+    path('voca', include('voca.urls')),
+
 ]
