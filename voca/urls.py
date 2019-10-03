@@ -1,10 +1,9 @@
 from django.urls import path, include
-from . import views
+from voca.views import *
 
 app_name='voca'
 
 urlpatterns = [
-    path('', views.main, name='main'),
-    path('upload/', views.upload, name='upload'),
-    path('upload/process/', views.process, name='process'),
+    path('main/', mainview.as_view(), name='main'),
+    #path('', views.main, name='main'),
 ]
