@@ -1,18 +1,34 @@
-{% extends 'pages/base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}
     파일 업로드  - 외워보카
 {% endblock %}
 
-{% block style %}
+{% block extra_style %}
     <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <link rel='stylesheet' href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/dropzone.css">
+
+    <style>
+    .dropzone {
+        background: white;
+        border-radius: 5px;
+        border: 2px dashed rgb(0, 135, 247);
+        border-image: none;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+        font-family: Roboto, "Open Sans", sans-serif;
+        font-size: 20px;
+        font-weight: 300;
+        text-rendering: optimizeLegibility;
+    }
+    </style>
+}
 {% endblock %}
 
-{% block page-wrapper %}
-    <p> 파일 업로드 </p>
+{% block content %}
 {% if user.is_authenticated %}
     <form action="{% url 'voca:process' %}"
           class="dropzone dz-clickable"
@@ -20,23 +36,22 @@
     method="post" enctype="multipart/form-data"
           novalidate>
         {% csrf_token %}
-        <div class="dz-default dz-message">
-            <span> PDF 파일을 올려주세요 </span>
+        <div class="dz-message needsclick">
+            <span> Upload your files here. </span>
         </div>
         <!--{{ form.as_p }}-->
-        <button type="submit" class="page-scroll btn btn-xl">Upload</button>
     </form>
-
-    Hi {{ user.username }}!
+    <br>
+    <button type="submit" class="page-scroll btn btn-xl">업로드 하기</button>
     <p><a href="{% url 'logout' %}">logout</a></p>
 {% else %}
     <p>You are not logged in</p>
-    <a href="{% url 'login' %}">login</a>
-    <a href="{% url 'signup' %}">sign up</a>
+    <a href="{% url 'account:sign_in' %}">login</a>
+    <a href="{% url 'account:before_sign_up' %}">sign up</a>
 {% endif %}
 {% endblock %}
 
-{% block script %}
+{% block extra_script %}
     <script type="text/javascript">
     var dropzone = new Dropzone('#my-dropzone', {
       previewTemplate: document.querySelector('#preview-template').innerHTML,
@@ -91,8 +106,5 @@
         }
       }
     }
-
-
     </script>
-
 {% endblock %}

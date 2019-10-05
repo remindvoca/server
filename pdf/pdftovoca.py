@@ -7,14 +7,19 @@ Created on Thu Jun 27 18:55:35 2019
 
 import os
 import re
-import nltk
-import numpy as np
+from tkinter.filedialog import askopenfilename 
+
 from tqdm import tqdm
 from collections import Counter
 from nltk.corpus import stopwords 
-from nltk.tokenize import word_tokenize 
+from nltk.tokenize import word_tokenize
+from nltk.tokenize import WordPunctTokenizer
+from nltk.tokenize import TreebankWordTokenizer
 from nltk.tokenize import sent_tokenize
-from tkinter.filedialog import askopenfilename 
+from nltk.stem import WordNetLemmatizer
+from nltk.stem import PorterStemmer
+from nltk.tag import pos_tag
+
 from pdfminer.pdfdocument import PDFDocument
 from pdfminer.pdfparser import PDFParser
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter,resolve1
@@ -24,9 +29,55 @@ from pdfminer.converter import XMLConverter, HTMLConverter, TextConverter
 from pdfminer.cmapdb import CMapDB
 from pdfminer.layout import LAParams
 from pdfminer.image import ImageWriter
+
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 
+'''
+표제어 추출 : Lemmatization
+1) stem(어간) : 단어의 의미를 담고있는 단어의 핵심 부분
+2) affix(접사) : 단어에 추가적인 의미를 주는 부분
+cats : cat(stem) + s(affix)
+
+am -> be
+the going -> the going
+having -> have
+'''
+
+def lemma(word,part):
+    n = WordNetLemmatizer()
+
+    return n.lemmatize(word,part)
+
+'''
+어간 추출 : Stemming
+
+am -> am
+the going -> the go
+having -> hav
+'''
+def stem(word):
+    s = PorterStemmer()
+
+    return s.stem(word)
+
+
+def token(text,mode):
+    if mode == 'sequence':
+        token_list = sent_tokenize(text)
+    elif mode == 'apostrophe':
+        token_list = WordPunctTokenizer().tokenize(text)
+    elif mode == 'hyphen':
+        token_list = TreebankWordTokenizer().tokenize(text)
+    else:
+        token_list = word_tokenize(text)
+
+    return token_list
+
+def tag(token_list,lang='eng'):
+    return pos_tag(token_list,lang=lang)
+
+	
 class preprocessing:
     def __init__(self, input_path, output_path=None):
         self.input_path = input_path
@@ -174,6 +225,43 @@ class preprocessing:
 
         return final_result
 
+    def word_parsing(self,text):
+	'''
+	text : text
+	=========================
+	return : word list 
+	'''
+        stop_words = set(stopwords.words('english')) 
+        word_tokens = word_tokenize(text)
+        
+        result = [] 
+
+        # 불필요한 단어들 제거
+        for w in word_tokens: 
+            if w not in stop_words: 
+                parsing = ''.join([i for i in w if not i.isdigit()]) 
+                parsing = re.sub('[-=+,#/\?:^$.@*\"※~&%}{ㆍ!』\\‘|\(\)\[\]\<\>`\'…》]', '', parsing)
+
+                if parsing and parsing.isalpha() == True:
+                    if not re.findall('\d+', w):
+                        w = w.lower()
+                        w = lemma(w,'v')
+                        
+                        tok = token(w,'hyphen')
+                        tags = tag(tok)
+                        
+                        '''
+                        PRP는 인칭 대명사, VBP는 동사, 
+                        RB는 부사, VBG는 현재부사, 
+                        IN은 전치사, NNP는 고유 명사, 
+                        NNS는 복수형 명사, CC는 접속사, DT는 관사
+                        '''
+                        
+                        if tags[0][1] not in ['DT','PRP']:
+                            result.append(w)
+                            
+        return result
+		
     def word_Frequency(self):
         '''
         ===============================
@@ -184,25 +272,10 @@ class preprocessing:
 
         text = f.readline()
 
-        # 단어의 빈도수
         shortword = re.compile(r'\W*\b\w{1,2}\b')
         text = shortword.sub('', text)
 
-        stop_words = set(stopwords.words('english')) 
-        word_tokens = word_tokenize(text)
-
-        result = [] 
-
-        # 불용어 제거
-        for w in word_tokens: 
-            if w not in stop_words: 
-                parsing = ''.join([i for i in w if not i.isdigit()]) 
-                parsing = re.sub('[-=+,#/\?:^$.@*\"※~&%}{ㆍ!』\\‘|\(\)\[\]\<\>`\'…》]', '', parsing)
-
-
-                if parsing and parsing.isdigit() == False and len(parsing) > 2:
-                    result.append(w)  
-
+        result = self.word_parsing(text)  
         cnt = Counter(self.return_without_easy_words(result))
         
         print('[INFO] generation word frequency')
