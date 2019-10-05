@@ -60,7 +60,14 @@
             margin-top: 50px;
             margin-bottom: 50px;
         }
-
+        #Rectangle-4 {
+            width: 200.8px;
+            height: 94.1px;
+            object-fit: contain;
+            border-radius: 54px;
+            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+            background-color: #ffffb5;
+        }
 
 
 
@@ -70,62 +77,18 @@
 
 {% block header_bar %}
 <header>
-    <button id="logout-button">
-        LOGOUT
-    </button>
+    <button id="logout-button" onclick="window.location = '{% url 'account:home' %}';">로그아웃</button>
+    <button id="Rectangle-4" onclick="window.location = '{% url 'account:home' %}';">로그아웃</button>
+
 </header>
 
 {% endblock header_bar %}
-
-
 {% block content %}
 <div>
     <div>
         <img id="user-profile" src="{% static 'img/profile.png' %}">
         <h3>{{ request.user.name }} 님</h3><br/>
     </div>
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-4"><h4>지금까지 외운 단어</h4></div>
-        <div class="col-md-4">총 {{ request.user.num_accumulated_words }} 단어</div>
-        <div class="col-md-2"></div>
-    </div>
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-4"><h4>진행 중인 못한 단어</h4></div>
-        <div class="col-md-4">총 {{ request.user.num_ongoing_words }} 단어</div>
-        <div class="col-md-2"></div>
-    </div>
+
 </div>
 {% endblock %}
-
-
-{% block extra_content%}
-<div id="button-list">
-    <div class="row">
-        <!--{% for vocabook in vocabooks %}-->
-        <!--<div class="col-md-3">-->
-            <!--<button>-->
-                <!--{{ vocabook.bookname }}<br/>{{vocabook.num_expected_day}}일 예상-->
-            <!--</button>-->
-        <!--</div>-->
-        <!--{% endfor %}-->
-        {% for name,day in vocabooks.items %}
-        <div class="col-md-3">
-            <button onclick="location.href='Intermediate/'">
-                {{ name }}<br/>{{ day }}일 예상
-            </button>
-        </div>
-        {% endfor %}
-    </div>
-</div>
-
-{% endblock %}
-
-{% block extra_script %}
-<script>
-    var
-
-
-</script>
-{% endblock extra_script %}
