@@ -200,5 +200,36 @@ class PDFModel(models.Model):
 #     @property
 #     def is_staff(self):
 #         return self.is_admin
+"""
+세교세교
+"""
 
 
+class WordBook(models.Model):
+    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    updated_time = models.DateTimeField()
+
+    def __str__(self):
+        return self.title
+
+
+class WordDay(models.Model):
+    word_book = models.ForeignKey('voca.WordBook', on_delete=models.CASCADE)
+    checked_time = models.DateTimeField()
+    day = models.PositiveSmallIntegerField(unique=True)
+
+    def __str__(self):
+        return self.day
+
+
+class Word(models.Model):
+    korean = models.CharField(max_length=100)
+    english = models.CharField(max_length=100)
+    example_sentence = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.english
+
+    def get_absolute_url(self):
+        pass
