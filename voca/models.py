@@ -95,9 +95,10 @@ class PDFModel(models.Model):
     filePath:
     Account_userID(FK):
     '''
-    filePath = models.FileField(upload_to="")
-    Account_userID = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
 
+    filePath = models.FileField(upload_to="")
+    # Account_userID = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
+    wordbook = models.ForeignKey('voca.WordBook', on_delete=models.CASCADE, related_name='pdf')
 
 #
 #

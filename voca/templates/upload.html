@@ -25,7 +25,6 @@
         text-rendering: optimizeLegibility;
     }
     </style>
-}
 {% endblock %}
 
 {% block content %}
@@ -42,7 +41,7 @@
         <!--{{ form.as_p }}-->
     </form>
     <br>
-    <button type="submit" class="page-scroll btn btn-xl">업로드 하기</button>
+    <button type="submit" class="page-scroll btn btn-xl" onclick="location.href='{% url 'voca:makeWord' %}'">업로드 하기</button>
     <p><a href="{% url 'logout' %}">logout</a></p>
 {% else %}
     <p>You are not logged in</p>

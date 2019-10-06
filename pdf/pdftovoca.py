@@ -226,11 +226,11 @@ class preprocessing:
         return final_result
 
     def word_parsing(self,text):
-	'''
-	text : text
-	=========================
-	return : word list 
-	'''
+        '''
+        text : text
+        =========================
+        return : word list
+        '''
         stop_words = set(stopwords.words('english')) 
         word_tokens = word_tokenize(text)
         
