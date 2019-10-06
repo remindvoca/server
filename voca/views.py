@@ -126,7 +126,7 @@ def makeWord(request):
 
             #visualization("visualization", file_folder, result)
 
-    return render(request, 'main.html', {})
+    return render(request, 'home.html', {})
 
 
 class WordBookListView(generic.ListView):
