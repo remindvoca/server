@@ -1,4 +1,4 @@
-{% extends 'voca_base.html' %}
+{% extends 'upload_base.html' %}
 {% load static %}
 
 {% block title %}
@@ -27,11 +27,14 @@
     </style>
 {% endblock %}
 
-{% block content %}
+{% block header_bar %}
     <div>
         <img id="sign-in-title" src="{% static 'img/logo.png' %}">
     </div>
     <br>
+{% endblock %}
+{% block content %}
+
 
 {% if user.is_authenticated %}
     <form action="{% url 'voca:process' %}"

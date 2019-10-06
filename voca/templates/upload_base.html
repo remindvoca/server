@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+        html, body{
+            height: 100%;
+        }
+        .content{
+            padding-top: 100px;
+            width: 100%;
+            height: 100%;
+            background-image: url('{% static 'img/background.svg' %}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center top;
+
+            text-align: center
+        }
+        .wrapper{
+            width: 720px;
+            margin-top: 150px;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+            background: white;
+            display: inline-block;
+        }
+        #logout-btn{
+            background: #ffffb5;
+            color: #3800a8;
+            border: 0;
+            width: 100px;
+            height: 40px;
+            border-radius: 25px;
+            position: absolute;
+            right: 20px;
+            top: 20px;
+        }
+        #mypage-btn{
+            background: #ffffb5;
+            color: #3800a8;
+            border: 0;
+            width: 100px;
+            height: 40px;
+            border-radius: 25px;
+            position: absolute;
+            right: 150px;
+            top: 20px;
+        }
+    </style>
+    {% block extra_style %}
+    {% endblock %}
+</head>
+<body>
+
+
+<div class="content mh-100">
+    {% block header_bar %}
+        <header>
+            <button id="logout-btn" onclick="window.location = '{% url 'account:home' %}';">로그아웃</button>
+            <button id="mypage-btn" onclick="window.location = '{% url 'voca:word_book_list' %}';">마이페이지</button>
+        </header>
+    {% endblock header_bar %}
+
+    <div class="wrapper">
+        {% block content %}
+        {% endblock content %}
+    </div>
+
+</div>
+
+
+<!-- Jquery, Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+{% block extra_script %}
+{% endblock extra_script %}
+</body>
+</html>
