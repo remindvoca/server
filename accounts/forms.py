@@ -61,6 +61,9 @@ class UserCreationForm(forms.ModelForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         user.set_password(self.cleaned_data["password1"])
+
+        # todo: createsuperuser 오버라이딩 안해서 귀찮아서 모든 유저 관리자로 생성함 어드민 페이지 사용하도록
+        user.is_staff = True
         if commit:
             user.save()
         return user
