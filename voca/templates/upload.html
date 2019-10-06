@@ -28,6 +28,11 @@
 {% endblock %}
 
 {% block content %}
+    <div>
+        <img id="sign-in-title" src="{% static 'img/logo.png' %}">
+    </div>
+    <br>
+
 {% if user.is_authenticated %}
     <form action="{% url 'voca:process' %}"
           class="dropzone dz-clickable"
