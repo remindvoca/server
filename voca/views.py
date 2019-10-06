@@ -1,14 +1,23 @@
 import os
+import shutil
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views import generic
 
 from accounts.models import User
-from .forms import PDF_Form
+from .forms import *
 from .models import PDFModel, WordBook, WordDay, Word
+from pdf.pdftovoca import preprocessing as prep
+
+import glob
+from collections import Counter
+import pandas as pd
+import plotnine
+from plotnine import *
 
 login_url = 'accounts/sign_in/'
 
@@ -38,29 +47,32 @@ def write_pdf_file(user,pdf):
 def process(request):
     if request.method == "POST":
         print(request.POST)
-        form = PDF_Form(request.POST, request.FILES)
+        #form = PDF_Form(request.POST, request.FILES)
         # if form.is_valid():
         user_instance = User.objects.filter(username=request.user.username).get()
         #print(type(user_instance))
         #print(user_instance)
         #print(request.user.username)
 
-        '''
+        
         #폴더 생성
         if not os.path.isdir(os.path.join(settings.MEDIA_ROOT,user_instance.username)):
             os.mkdir(os.path.join(settings.MEDIA_ROOT,user_instance.username))
-        '''
-        new_request=PDFModel.objects.create(
-            filePath=request.FILES['file'],
-            Account_userID=user_instance,
-        )
+        write_pdf_file(user_instance.username, request.FILES['file'])
+
+        # new_request=PDFModel.objects.create(
+        #     filePath=request.FILES['file'],
+        #     Account_userID=user_instance,
+        # )
+
         print(request.FILES)
         print('PDF uploaded.')
 
         return render(request, 'alert.html', {'msg': "Upload was successfully finished. We will let you know if rendering is finished!"})
-    '''
+
     # 처음 파일올리는 폼 줄때
     else:
+        print(request.session['path'])
         user_name = request.session['user_name']
         request.session['path'] = os.path.join(str(user_name))
 
@@ -68,11 +80,53 @@ def process(request):
         if os.path.isdir(os.path.join(settings.MEDIA_ROOT, user_name)):
             shutil.rmtree(os.path.join(settings.MEDIA_ROOT, user_name))
 
-        print(request.session['path'])
         # 파일을 받을 준비를 하자
-    '''
+
     # return render(request, 'alert.html', {'msg': "Invalid Form for Video object"})
     return render(request, 'alert.html', {'msg': "잘못된 접근입니다"})
+
+@login_required(login_url=login_url)
+def makeWord(request):
+    user_name = request.user.username
+    file_folder = os.path.join(settings.MEDIA_ROOT, user_name)
+    # 폴더가 있으면 단어 분석을 시작한다.
+    if os.path.isdir(file_folder):
+        print(file_folder)
+        # 모든 파일을 가져옴
+        pdf_path = glob.glob(file_folder + "/*.pdf")
+        txt_path = glob.glob(file_folder + "/*.txt")
+
+        path_list = pdf_path + txt_path
+
+        result = Counter('')
+
+        # 예문을 만들기 위한 path
+        text_path = []
+
+        print(path_list)
+        for path in path_list:
+            if path[-3:] == 'pdf':
+                pdf = prep(input_path=path)
+                output_path = pdf.pdf2txt()
+                text_path.append(output_path)
+
+                pdf.clean_text()
+                cnt = pdf.word_Frequency()
+
+            elif path[-3:] == 'txt':
+                txt = prep(output_path=path)
+                text_path.append(path)
+
+                txt.clean_text()
+                cnt = txt.word_Frequency()
+
+            result += cnt
+            #여기서 디비 등록
+            print(cnt)
+
+            #visualization("visualization", file_folder, result)
+
+    return render(request, 'main.html', {})
 
 
 class WordBookListView(generic.ListView):
@@ -131,3 +185,13 @@ class WordListView(generic.ListView):
         context = super(WordListView, self).get_context_data(object_list=None, **kwargs)
         context['word_day'] = self.word_day
         return context
+
+class PDFupload(generic.CreateView):
+    template_name = 'upload/process'
+    form_class = WordbookCreateForm
+    success_url = reverse_lazy('account:home')
+
+    def get_form_kwargs(self):
+        kwargs = super(PDFupload, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs

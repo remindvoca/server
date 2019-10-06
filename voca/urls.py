@@ -7,6 +7,7 @@ urlpatterns = [
     path('main/', mainview.as_view(), name='main'),
     path('upload/', uploadview.as_view(), name='upload'),
     path('upload/process/', process, name='process' ),
+    path('upload/process/makeWord', makeWord, name='makeWord' ),
     #path('', views.main, name='main'),
 
     path('word_books/', WordBookListView.as_view(), name='word_book_list'),
