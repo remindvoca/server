@@ -89,20 +89,25 @@ class WordBookListView(generic.ListView):
         return context
 
 
-class WordDayLIstView(generic.ListView):
+class WordDayListView(generic.ListView):
     template_name = 'word_day_list.html'
     model = WordDay
 
     def setup(self, request, *args, **kwargs):
-        super(WordDayLIstView, self).setup(request, *args, **kwargs)
+        super(WordDayListView, self).setup(request, *args, **kwargs)
         self.word_book = get_object_or_404(WordBook, id=self.kwargs.get('word_book_id'))
         self.word_book.updated_time = timezone.now()
         self.word_book.save(update_fields=['updated_time'])
 
     def get_queryset(self):
-        queryset = super(WordDayLIstView, self).get_queryset()
+        queryset = super(WordDayListView, self).get_queryset()
         word_book = self.kwargs.get('word_book_id')
         return queryset.filter(word_book=word_book)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(WordDayListView, self).get_context_data(object_list=None, **kwargs)
+        context['word_book'] = self.word_book
+        return context
 
 
 class WordListView(generic.ListView):
@@ -121,3 +126,8 @@ class WordListView(generic.ListView):
         queryset = queryset.filter(word_day=self.word_day)
         queryset.update(is_remembered=True)
         return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(WordListView, self).get_context_data(object_list=None, **kwargs)
+        context['word_day'] = self.word_day
+        return context
