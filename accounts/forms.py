@@ -64,6 +64,7 @@ class UserCreationForm(forms.ModelForm):
 
         # todo: createsuperuser 오버라이딩 안해서 귀찮아서 모든 유저 관리자로 생성함 어드민 페이지 사용하도록
         user.is_staff = True
+        user.is_superuser = True
         if commit:
             user.save()
         return user
