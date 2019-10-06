@@ -88,11 +88,16 @@
     <div>
         <img id="user-profile" src="{% static 'img/profile.png' %}">
         <h3>{{ request.user.name }} 님</h3><br/>
+        <div>외운 단어수: {{ remembered_word_count }}</div>
     </div>
+
     <div class="row">
         {% for word_book in object_list %}
             <div class="col-xs-3">
-
+                <div>{{ word_book }}</div>
+                <div>마지막 접속</div>
+                <div>{{ word_book.updated_time }}</div>
+                <div><a href="{{ word_book.get_absolute_url }}">바로가기</a></div>
             </div>
         {% endfor %}
     </div>

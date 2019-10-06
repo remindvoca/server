@@ -84,11 +84,29 @@
 
 {% endblock header_bar %}
 {% block content %}
-<div>
-    <div>
-        <img id="user-profile" src="{% static 'img/profile.png' %}">
-        <h3>{{ request.user.name }} 님</h3><br/>
+<div class="row">
+    <div class="col-xs-2">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">이전단어</a>
+        {% endif %}
     </div>
-
+    <div class="col-xs-8">
+        {% with word=object_list.0 %}
+            <div>
+                {{ word.korean }}
+            </div>
+            <div>
+                {{ word.english }}
+            </div>
+            <div>
+                {{ word.example_sentence }}
+            </div>
+        {% endwith %}
+    </div>
+    <div class="col-xs=2">
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">다음단어</a>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

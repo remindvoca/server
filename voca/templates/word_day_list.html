@@ -89,6 +89,16 @@
         <img id="user-profile" src="{% static 'img/profile.png' %}">
         <h3>{{ request.user.name }} 님</h3><br/>
     </div>
+    <div class="row">
+        {% for word_day in object_list %}
+            <div class="col-xs-3">
+                <div>DAY</div>
+                <div>{{ word_day }}</div>
+                <div>{{ word_day.checked_time|default:"복습예정" }}</div>
+                <div><a href="{{ word_day.get_absolute_url }}">바로가기</div>
+            </div>
+        {% endfor %}
+    </div>
 
 </div>
 {% endblock %}
