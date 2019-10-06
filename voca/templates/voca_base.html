@@ -25,6 +25,28 @@
 
             text-align: center
         }
+        #logout-btn{
+            background: #ffffb5;
+            color: #3800a8;
+            border: 0;
+            width: 100px;
+            height: 40px;
+            border-radius: 25px;
+            position: absolute;
+            right: 20px;
+            top: 20px;
+        }
+        #mypage-btn{
+            background: #ffffb5;
+            color: #3800a8;
+            border: 0;
+            width: 100px;
+            height: 40px;
+            border-radius: 25px;
+            position: absolute;
+            right: 150px;
+            top: 20px;
+        }
     </style>
     {% block extra_style %}
     {% endblock %}
@@ -36,6 +58,7 @@
     {% block header_bar %}
         <header>
             <button id="logout-btn" onclick="window.location = '{% url 'account:home' %}';">로그아웃</button>
+            <button id="mypage-btn" onclick="window.location = '{% url 'voca:word_book_list' %}';">마이페이지</button>
         </header>
     {% endblock header_bar %}
     {% block content %}
