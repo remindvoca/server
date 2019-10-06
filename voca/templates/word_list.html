@@ -1,112 +1,112 @@
-{% extends 'base.html' %}
+{% extends 'voca_base.html' %}
 {% load static %}
 
 {% block title %}
 {% endblock %}
 
 {% block extra_style %}
-<style>
-        input{
-            width: 280px;
-            padding: 5px 25px;
-            border-radius: 26px;
-            border: solid 1px #7e86dc;
-            background-color: #ffffff;
-            color: #7e86dc;
-        }
-        button{
-            width: 200px;
-            height: 200px;
-            border: none;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            margin-left: 20px;
-            margin-right: 20px;
-            font-weight: 500;
-            padding: 5px 25px;
-            border-radius: 10px;
-            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
-            background-color: #ffffb5;
+    <style>
+        #logout-btn{
+            background: #ffffb5;
             color: #3800a8;
-            font-weight: bold;
-        }
-        header{
-            height: 50px;
-            background-color: #000000;
-            opacity: 0.5;
-        }
-        #logout-button{
-            width: 150px;
+            border: 0;
+            width: 100px;
             height: 30px;
-            border: none;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            margin-left: 20px;
-            margin-right: 20px;
-            font-weight: 500;
-            padding: 5px 25px;
+            border-radius: 25px;
+            position: absolute;
+            right: 20px;
+            top: 20px;
+        }
+        .header{
+            display: inline-block;
+            width: 800px;
+            text-align: left;
+        }
+        h1{
+            color: white;
+            font-weight: bolder;
+            font-size: 50px;
+        }
+        .object-list{
+            text-align: left;
+            display: inline-block;
+            width: 800px;
+        }
+        .list-title{
+            margin-bottom: 40px;
+            color: white;
+            font-weight: bolder;
+        }
+        .word-card{
+            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+            padding: 50px;
+            background: white;
             border-radius: 10px;
-            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
-            background-color: #ffffb5;
-            color: #3800a8;
-            font-weight: bold;
-            float: right;
-            opacity: 1.0;
+            text-align: center;
+            margin-bottom: 20px;
         }
-        #user-profile{
-            width: 70px;
+        .meaning{
+            font-size: 50px;
+            font-weight: bolder;
+            margin-bottom: 10px;
         }
-        #button-list{
-            margin-top: 50px;
-            margin-bottom: 50px;
+        .example{
+            font-size: 30px;
         }
-        #Rectangle-4 {
-            width: 200.8px;
-            height: 94.1px;
-            object-fit: contain;
-            border-radius: 54px;
-            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
-            background-color: #ffffb5;
+        .move-btn{
+            margin-top: 70px;
+            font-size: 100px;
+            color: black;
+            font-weight: bolder;
         }
-
-
-
-</style>
+    </style>
 {% endblock %}
 
-
-{% block header_bar %}
-<header>
-    <button id="logout-button" onclick="window.location = '{% url 'account:home' %}';">로그아웃</button>
-    <button id="Rectangle-4" onclick="window.location = '{% url 'account:home' %}';">로그아웃</button>
-
-</header>
-
-{% endblock header_bar %}
 {% block content %}
-<div class="row">
-    <div class="col-xs-2">
-        {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}">이전단어</a>
-        {% endif %}
+    <div>
+        <div class="header">
+            <h1 style="color: white">
+                <img src="{% static 'img/profile.png' %}"> 외워보카
+            </h1>
+        </div>
     </div>
-    <div class="col-xs-8">
-        {% with word=object_list.0 %}
-            <div>
-                {{ word.korean }}
+    <div>
+        <div class="object-list">
+            <h2 class="list-title">
+                <a href="{{ word_day.word_book.get_absolute_url }}" style="color: white">{{ word_day.word_book.title}}</a>
+                <br>
+                <a href="{{ word_day.get_absolute_url }}"  style="color: white">DAY {{ word_day.day }}</a>
+            </h2>
+            <div class="row">
+                <div class="col-xs-2 move-btn">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}"><</a>
+                    {% endif %}
+                </div>
+                <div class="col-xs-8">
+                    <div class="word-card">
+                        {% with word=object_list.0 %}
+                            <div class="meaning">
+                                {{ word.english }}
+                            </div>
+                            <div class="meaning">
+                                {{ word.korean }}
+                            </div>
+                            <div class="example">
+                                {{ word.example_sentence }}
+                            </div>
+                        {% endwith %}
+                    </div>
+                </div>
+                <div class="col-xs-2 move-btn">
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">></a>
+                    {% endif %}
+                </div>
             </div>
-            <div>
-                {{ word.english }}
+            <div style="text-align: center;font-size: 25px">
+                {{ page_obj.number }} / {{ paginator.num_pages }}
             </div>
-            <div>
-                {{ word.example_sentence }}
-            </div>
-        {% endwith %}
+        </div>
     </div>
-    <div class="col-xs=2">
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">다음단어</a>
-        {% endif %}
-    </div>
-</div>
 {% endblock %}

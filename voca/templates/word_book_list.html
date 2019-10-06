@@ -1,106 +1,137 @@
-{% extends 'base.html' %}
+{% extends 'voca_base.html' %}
 {% load static %}
 
 {% block title %}
 {% endblock %}
 
 {% block extra_style %}
-<style>
-        input{
-            width: 280px;
-            padding: 5px 25px;
-            border-radius: 26px;
-            border: solid 1px #7e86dc;
-            background-color: #ffffff;
-            color: #7e86dc;
-        }
-        button{
-            width: 200px;
-            height: 200px;
-            border: none;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            margin-left: 20px;
-            margin-right: 20px;
-            font-weight: 500;
-            padding: 5px 25px;
-            border-radius: 10px;
-            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
-            background-color: #ffffb5;
-            color: #3800a8;
-            font-weight: bold;
-        }
-        header{
-            height: 50px;
-            background-color: #000000;
-            opacity: 0.5;
-        }
-        #logout-button{
-            width: 150px;
-            height: 30px;
-            border: none;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            margin-left: 20px;
-            margin-right: 20px;
-            font-weight: 500;
-            padding: 5px 25px;
-            border-radius: 10px;
-            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
-            background-color: #ffffb5;
-            color: #3800a8;
-            font-weight: bold;
-            float: right;
-            opacity: 1.0;
-        }
+    <style>
         #user-profile{
             width: 70px;
         }
-        #button-list{
-            margin-top: 50px;
-            margin-bottom: 50px;
+        #logout-btn{
+            background: #ffffb5;
+            color: #3800a8;
+            border: 0;
+            width: 100px;
+            height: 30px;
+            border-radius: 25px;
+            position: absolute;
+            right: 20px;
+            top: 20px;
         }
-        #Rectangle-4 {
-            width: 200.8px;
-            height: 94.1px;
-            object-fit: contain;
-            border-radius: 54px;
+
+        .profile-wrapper{
+            display: inline-block;
+            width: 720px;
+            text-align: right;
+        }
+        .profile{
+            margin-top: 30px;
+            width: 360px;
+            padding: 50px;
+            border-radius: 10px;
             box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
-            background-color: #ffffb5;
+            background: #cbe0ff;
+            display: inline-block;
+            text-align: center;
         }
+        .header{
+            display: inline-block;
+            width: 720px;
+            text-align: left;
+        }
+        h1{
+            color: white;
+            font-weight: bolder;
+            font-size: 50px;
+        }
+        .title-desc{
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
 
-
-
-</style>
+        }
+        .object-list{
+            text-align: left;
+            display: inline-block;
+            width: 800px;
+        }
+        .list-title{
+            margin-bottom: 40px;
+            color: #5132ba;
+            font-weight: bolder;
+        }
+        .folder{
+            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+            height: 165px;
+            border-radius: 5px;
+            color: white;
+            margin-left: 5px;
+            margin-right: 5px;
+            margin-bottom: 60px;
+            padding: 30px;
+            background: #cfc2fa;
+        }
+        .folder-title{
+            font-size: 25px;
+            font-weight: bolder;
+            margin-bottom: 10px;
+        }
+    </style>
 {% endblock %}
 
-
-{% block header_bar %}
-<header>
-    <button id="logout-button" onclick="window.location = '{% url 'account:home' %}';">로그아웃</button>
-    <button id="Rectangle-4" onclick="window.location = '{% url 'account:home' %}';">로그아웃</button>
-
-</header>
-
-{% endblock header_bar %}
 {% block content %}
-<div>
     <div>
-        <img id="user-profile" src="{% static 'img/profile.png' %}">
-        <h3>{{ request.user.name }} 님</h3><br/>
-        <div>외운 단어수: {{ remembered_word_count }}</div>
+        <div class="header">
+            <h1 style="color: white">
+                <img src="{% static 'img/profile.png' %}"> 외워보카
+            </h1>
+            <p class="title-desc">
+                파일만 있다면 이제 단어장을 만들 수 있어요.</br>
+                매일 학습할 분량 만큼 나누어 단어를 추천해 드릴게요.</br>
+                그럼, 지금부터 외워보카?
+            </p>
+        </div>
     </div>
-
-    <div class="row">
-        {% for word_book in object_list %}
-            <div class="col-xs-3">
-                <div>{{ word_book }}</div>
-                <div>마지막 접속</div>
-                <div>{{ word_book.updated_time }}</div>
-                <div><a href="{{ word_book.get_absolute_url }}">바로가기</a></div>
+    <div>
+        <div class="profile-wrapper">
+            <div class="profile">
+                <div>
+                    <img id="user-profile" src="{% static 'img/profile.png' %}">
+                    <h4 style="font-weight: bold">{{ request.user.name }} 님</h4><br/>
+                    <div>외운 단어수: {{ remembered_word_count }}</div>
+                </div>
             </div>
-        {% endfor %}
+        </div>
     </div>
-
-</div>
+    <div>
+        <div class="object-list">
+            <h2 class="list-title">
+                내 단어장
+            </h2>
+            <div class="row">
+                <div class="col-xs-3">
+                    <div class="folder" style="text-align: center">
+                        <a href="{% url 'account:home' %}">
+                            <p style="font-weight: bolder;font-size: 60px;margin-top: 10px; color: white">
+                                +
+                            </p>
+                        </a>
+                    </div>
+                </div>
+                {% for word_book in object_list %}
+                    <div class="col-xs-3">
+                        <a href="{{ word_book.get_absolute_url }}">
+                            <div class="folder">
+                                <div class="folder-title">{{ word_book }}</div>
+                                <div class="folder-desc">마지막 접속</div>
+                                <div class="folder-desc">{{ word_book.updated_time|date:"Y.m.d G:i:s" }}</div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
