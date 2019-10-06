@@ -202,9 +202,6 @@ class PDFModel(models.Model):
 #     @property
 #     def is_staff(self):
 #         return self.is_admin
-"""
-세교세교
-"""
 
 
 class WordBook(models.Model):
