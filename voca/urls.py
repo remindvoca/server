@@ -10,6 +10,6 @@ urlpatterns = [
     #path('', views.main, name='main'),
 
     path('word_books/', WordBookListView.as_view(), name='word_book_list'),
-    path('word_books/<int:word_book_id>/', WordDayLIstView.as_view(), name='word_day_list'),
+    path('word_books/<int:word_book_id>/', WordDayListView.as_view(), name='word_day_list'),
     path('word_days/<int:word_day_id>/', WordListView.as_view(), name='word_list'),
 ]
