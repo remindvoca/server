@@ -1,10 +1,10 @@
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from django.views import generic
-from django.conf import settings
 import os
-import shutil
 
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
+from django.utils import timezone
+from django.views import generic
 
 from accounts.models import User
 from .forms import PDF_Form
@@ -83,28 +83,41 @@ class WordBookListView(generic.ListView):
         queryset = super(WordBookListView, self).get_queryset()
         return queryset.filter(user=self.request.user)
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(WordBookListView, self).get_context_data(object_list=object_list, **kwargs)
+        context['remembered_word_count'] = self.request.user.words.filter(is_remembered=True).count()
+        return context
+
 
 class WordDayLIstView(generic.ListView):
     template_name = 'word_day_list.html'
     model = WordDay
 
+    def setup(self, request, *args, **kwargs):
+        super(WordDayLIstView, self).setup(request, *args, **kwargs)
+        self.word_book = get_object_or_404(WordBook, id=self.kwargs.get('word_book_id'))
+        self.word_book.updated_time = timezone.now()
+        self.word_book.save(update_fields=['updated_time'])
+
     def get_queryset(self):
         queryset = super(WordDayLIstView, self).get_queryset()
-        word_book = self.kwargs.get('word_book_Id')
+        word_book = self.kwargs.get('word_book_id')
         return queryset.filter(word_book=word_book)
 
 
 class WordListView(generic.ListView):
     template_name = 'word_list.html'
     model = Word
+    paginate_by = 1
+
+    def setup(self, request, *args, **kwargs):
+        super(WordListView, self).setup(request, *args, **kwargs)
+        self.word_day = get_object_or_404(WordDay, id=self.kwargs.get('word_day_id'))
+        self.word_day.checked_time = timezone.now()
+        self.word_day.save(update_fields=['checked_time'])
 
     def get_queryset(self):
         queryset = super(WordListView, self).get_queryset()
-        word_day = self.kwargs.get('word_day_id')
-        return queryset.filter(word_day=word_day)
-
-
-class WordDetailView(generic.DetailView):
-    template_name = 'word_detail.html'
-    pk_url_kwarg = 'word_id'
-    model = Word
+        queryset = queryset.filter(word_day=self.word_day)
+        queryset.update(is_remembered=True)
+        return queryset
