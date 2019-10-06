@@ -1,104 +1,92 @@
-{% extends 'base.html' %}
+{% extends 'voca_base.html' %}
 {% load static %}
 
 {% block title %}
 {% endblock %}
 
 {% block extra_style %}
-<style>
-        input{
-            width: 280px;
-            padding: 5px 25px;
-            border-radius: 26px;
-            border: solid 1px #7e86dc;
-            background-color: #ffffff;
-            color: #7e86dc;
+    <style>
+        .header{
+            display: inline-block;
+            width: 800px;
+            text-align: left;
         }
-        button{
-            width: 200px;
-            height: 200px;
-            border: none;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            margin-left: 20px;
-            margin-right: 20px;
-            font-weight: 500;
-            padding: 5px 25px;
-            border-radius: 10px;
+        h1{
+            color: white;
+            font-weight: bolder;
+            font-size: 50px;
+        }
+        .object-list{
+            text-align: left;
+            display: inline-block;
+            width: 800px;
+        }
+        .list-title{
+            margin-bottom: 40px;
+            color: white;
+            font-weight: bolder;
+        }
+        .folder{
             box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
-            background-color: #ffffb5;
-            color: #3800a8;
-            font-weight: bold;
+            height: 165px;
+            border-radius: 5px;
+            color: white;
+            margin-left: 5px;
+            margin-right: 5px;
+            margin-bottom: 60px;
+            padding: 30px;
+            background: #7d63d5;
+            text-align: center;
         }
-        header{
-            height: 50px;
-            background-color: #000000;
-            opacity: 0.5;
+        .folder-title{
+            font-size: 25px;
+            font-weight: bolder;
+            margin-bottom: 10px;
         }
-        #logout-button{
-            width: 150px;
-            height: 30px;
-            border: none;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            margin-left: 20px;
-            margin-right: 20px;
-            font-weight: 500;
-            padding: 5px 25px;
-            border-radius: 10px;
-            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
-            background-color: #ffffb5;
-            color: #3800a8;
-            font-weight: bold;
-            float: right;
-            opacity: 1.0;
-        }
-        #user-profile{
-            width: 70px;
-        }
-        #button-list{
-            margin-top: 50px;
-            margin-bottom: 50px;
-        }
-        #Rectangle-4 {
-            width: 200.8px;
-            height: 94.1px;
-            object-fit: contain;
-            border-radius: 54px;
-            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
-            background-color: #ffffb5;
-        }
-
-
-
-</style>
+    </style>
 {% endblock %}
 
-
-{% block header_bar %}
-<header>
-    <button id="logout-button" onclick="window.location = '{% url 'account:home' %}';">로그아웃</button>
-    <button id="Rectangle-4" onclick="window.location = '{% url 'account:home' %}';">로그아웃</button>
-
-</header>
-
-{% endblock header_bar %}
 {% block content %}
-<div>
     <div>
-        <img id="user-profile" src="{% static 'img/profile.png' %}">
-        <h3>{{ request.user.name }} 님</h3><br/>
+        <div class="header">
+            <h1 style="color: white">
+                <img src="{% static 'img/profile.png' %}"> 외워보카
+            </h1>
+        </div>
     </div>
-    <div class="row">
-        {% for word_day in object_list %}
-            <div class="col-xs-3">
-                <div>DAY</div>
-                <div>{{ word_day }}</div>
-                <div>{{ word_day.checked_time|default:"복습예정" }}</div>
-                <div><a href="{{ word_day.get_absolute_url }}">바로가기</div>
+    <div>
+        <div class="object-list">
+            <h2 class="list-title">
+                > {{ word_book.title}}
+            </h2>
+            <div class="row">
+                <div class="col-xs-3">
+                    <div class="folder">
+                        <a href="{% url 'account:home' %}">
+                            <p style="font-weight: bolder;font-size: 60px;margin-top: 10px; color: white">
+                                +
+                            </p>
+                        </a>
+                    </div>
+                </div>
+                {% for word_day in object_list %}
+                    <div class="col-xs-3">
+                        <a href="{{ word_day.get_absolute_url }}">
+                            <div class="folder">
+                                <div class="folder-title">DAY</div>
+                                <div class="folder-title">{{ word_day }}</div>
+                                <div>
+                                    {% if word_day.checked_time %}
+                                        {{ word_day.checked_time|date:"Y.n.j" }} 완료
+                                    {% else %}
+                                        복습예정
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
             </div>
-        {% endfor %}
+        </div>
     </div>
-
-</div>
 {% endblock %}
