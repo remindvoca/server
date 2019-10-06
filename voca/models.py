@@ -3,6 +3,8 @@ import uuid
 # from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
 
 # Create your models here.
+from django.urls import reverse_lazy
+
 '''
 
 $$$$$ 데이터베이스에 사용 시 주의사항 $$$$$ 
@@ -200,5 +202,45 @@ class PDFModel(models.Model):
 #     @property
 #     def is_staff(self):
 #         return self.is_admin
+"""
+세교세교
+"""
 
 
+class WordBook(models.Model):
+    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE, related_name='word_books')
+    title = models.CharField(max_length=100)
+    updated_time = models.DateTimeField(auto_created=True)
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse_lazy('voca:word_day_list', kwargs={'word_book_id': self.id})
+
+
+class WordDay(models.Model):
+    word_book = models.ForeignKey('voca.WordBook', on_delete=models.CASCADE, related_name='word_days')
+    checked_time = models.DateTimeField(null=True, default=None)
+    day = models.PositiveSmallIntegerField(unique=True)
+
+    def __str__(self):
+        return str(self.day)
+
+    def get_absolute_url(self):
+        return reverse_lazy('voca:word_list', kwargs={'word_day_id': self.id})
+
+
+class Word(models.Model):
+    word_day = models.ForeignKey('voca.WordDay', on_delete=models.CASCADE, related_name='words')
+    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE, related_name='words')
+    korean = models.CharField(max_length=100)
+    english = models.CharField(max_length=100)
+    example_sentence = models.CharField(max_length=100)
+    is_remembered = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.english
+
+    def get_absolute_url(self):
+        return reverse_lazy('voca:word_detail', kwargs={'word_id': self.id})

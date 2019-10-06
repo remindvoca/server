@@ -11,6 +11,8 @@ from django.contrib.auth.views import LoginView
 from voca.models import *
 
 # todo: 임시 홈뷰
+
+
 class HomeView(generic.TemplateView):
     template_name = 'home.html'
 
@@ -29,7 +31,7 @@ class SignInView(LoginView):
     template_name = 'sign_in.html'
 
     def get_success_url(self):
-        return reverse_lazy('voca:main') #마이페이지 링크 걸어주기
+        return reverse_lazy('voca:word_book_list') #마이페이지 링크 걸어주기
 
 
 class SignOutView(generic.RedirectView):
@@ -39,34 +41,3 @@ class SignOutView(generic.RedirectView):
     def dispatch(self, request, *args, **kwargs):
         auth_logout(request)
         return super(SignOutView, self).dispatch(request, *args, **kwargs)
-
-class MyPageView(generic.ListView):
-    model = FolderModel
-    template_name = 'mypage.html'
-    context_object_name = 'folders'
-
-    def get_queryset(self):  # 컨텍스트 오버라이딩
-        # return FolderModel.objects.filter(Account_userID=self.request.user)
-        return ['TOEIC','TOEFL','수능','TOEIC_2','TOEFL_2',]
-
-class VocaBookView(generic.ListView):
-    model = VocaBookModel
-    template_name = 'myVocaBooks.html'
-    context_object_name = 'vocabooks'
-
-    def get_queryset(self):  # 컨텍스트 오버라이딩
-        # return FolderModel.objects.filter(Account_userID=self.request.user)
-        return {
-            'Intermediate': 20,
-            'Regular': 30,
-            'Actual': 25,
-        }
-
-class DailyBookView(generic.ListView):
-    model = DailyBookModel
-    template_name = 'daily.html'
-    context_object_name = 'dailyBooks'
-
-    def get_queryset(self):  # 컨텍스트 오버라이딩
-        # return FolderModel.objects.filter(Account_userID=self.request.user)
-        return list(range(1,21))
